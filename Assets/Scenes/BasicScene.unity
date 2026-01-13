@@ -1149,13 +1149,13 @@ MonoBehaviour:
   mainLight: {fileID: 299639868}
   lightColorOverload: {r: 0.8962264, g: 0.22480834, b: 0.04650232, a: 1}
   lightColorCalm: {r: 0.56694835, g: 0.53640085, b: 0.9245283, a: 1}
-  lightIntensityOverload: 2.8
+  lightIntensityOverload: 2.7
   lightIntensityCalm: 2.52
   controlFog: 1
   fogColorOverload: {r: 0.7, g: 0.8, b: 0.9, a: 1}
   fogColorCalm: {r: 0.85, g: 0.9, b: 0.85, a: 1}
   fogDensityOverload: 0.4
-  fogDensityCalm: 0.21
+  fogDensityCalm: 0.18
   accentRenderers:
   - {fileID: 0}
   emissiveOverload: {r: 1, g: 1, b: 1, a: 1}
