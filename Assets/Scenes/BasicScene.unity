@@ -667,7 +667,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: d1f9a244e052941b8a4df51b7b757a38, type: 3}
   m_Resource: {fileID: 8300000, guid: d1f9a244e052941b8a4df51b7b757a38, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.58
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6367,7 +6367,7 @@ Transform:
   m_GameObject: {fileID: 1359956379}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.46, y: 0.8, z: -1.39}
+  m_LocalPosition: {x: -5.57, y: 0.8, z: 0.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6675,9 +6675,9 @@ MonoBehaviour:
   overloadLoop: {fileID: 592383442}
   calmLoop: {fileID: 1960732221}
   breathLoop: {fileID: 1147897655}
-  overloadMax: 0.85
+  overloadMax: 0.57
   calmMax: 0.85
-  breathMax: 0.6
+  breathMax: 0.7
   breathMin: 0.25
   noiseParticles: {fileID: 1359956381}
   particlesAtOverload: 80
@@ -6710,7 +6710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   calmnessController: {fileID: 1506470930}
-  calmnessGainPerResolve: 0.33
+  calmnessGainPerResolve: 0.34
 --- !u!1 &1717441771
 GameObject:
   m_ObjectHideFlags: 0
