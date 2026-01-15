@@ -6834,10 +6834,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calmnessController: {fileID: 1506470930}
   fullBreathClip: {fileID: 8300000, guid: ed4d28d61063b4859a697c4a309b9657, type: 3}
-  bpmOverload: 22
-  bpmCalm: 8
-  volumeOverload: 0.55
-  volumeCalm: 0.25
+  bpmOverload: 25.2
+  bpmCalm: 11
+  volumeOverload: 0.94
+  volumeCalm: 0.62
   randomJitterSeconds: 0.05
   preventOverlap: 1
 --- !u!82 &1717441773
