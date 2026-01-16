@@ -1,0 +1,2 @@
+/Users/k2-bakiri/Desktop/resonanceVR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/CMakeLists.txt
+/Users/k2-bakiri/Desktop/resonanceVR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity/CMakeLists.txt
