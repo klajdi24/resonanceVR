@@ -10,15 +10,15 @@ public class BreathingMotifSingleClip : MonoBehaviour
     public AudioClip fullBreathClip;
 
     [Header("Breaths Per Minute (BPM)")]
-    public float bpmOverload = 22f;  // fast when overwhelmed
-    public float bpmCalm = 8f;       // slow when calm
+    public float bpmOverload = 22f;
+    public float bpmCalm = 8f;
 
     [Header("Volume")]
     public float volumeOverload = 0.55f;
     public float volumeCalm = 0.25f;
 
     [Header("Timing")]
-    public float randomJitterSeconds = 0.05f; // human variation
+    public float randomJitterSeconds = 0.05f;
     public bool preventOverlap = true;
 
     private AudioSource src;
@@ -34,18 +34,17 @@ public class BreathingMotifSingleClip : MonoBehaviour
     {
         if (calmnessController == null || fullBreathClip == null) return;
 
-        float c = calmnessController.calmness; // 0 overload -> 1 calm
+        float c = calmnessController.calmness;
 
-        // Map calmness to breathing pace + volume
         float bpm = Mathf.Lerp(bpmOverload, bpmCalm, c);
         float secondsPerBreath = 60f / Mathf.Max(1f, bpm);
+
         src.volume = Mathf.Lerp(volumeOverload, volumeCalm, c);
 
         if (Time.time >= nextBreathTime)
         {
             src.PlayOneShot(fullBreathClip);
 
-            // If the clip is longer than the target breath interval, either overlap or wait longer.
             float clipDur = fullBreathClip.length;
             float baseDelay = preventOverlap ? Mathf.Max(secondsPerBreath, clipDur) : secondsPerBreath;
 

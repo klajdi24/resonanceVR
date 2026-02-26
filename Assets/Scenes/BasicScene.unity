@@ -987,8 +987,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ed4d28d61063b4859a697c4a309b9657, type: 3}
+  m_Resource: {fileID: 8300000, guid: ed4d28d61063b4859a697c4a309b9657, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.6
   m_Pitch: 1
@@ -1160,8 +1160,7 @@ MonoBehaviour:
   fogColorCalm: {r: 0.8509804, g: 0.9019608, b: 0.9000048, a: 1}
   fogDensityOverload: 0.1
   fogDensityCalm: 0.04
-  accentRenderers:
-  - {fileID: 0}
+  accentRenderers: []
   emissiveOverload: {r: 1, g: 1, b: 1, a: 1}
   emissiveCalm: {r: 1, g: 1, b: 1, a: 1}
   emissiveProperty: _EmissionColor
@@ -6763,16 +6762,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   calmness: 0
-  riseSpeed: 0.2
-  fallSpeed: 0
-  allowKeyboardTestInEditor: 1
+  allowHoldToIncrease: 0
+  riseSpeed: 0.4
+  allowKeyboardTestInEditor: 0
   holdAction: {fileID: 0}
   overloadLoop: {fileID: 592383442}
   calmLoop: {fileID: 1960732221}
   breathLoop: {fileID: 1147897655}
-  overloadMax: 0.57
-  calmMax: 0.92
-  breathMax: 1
+  overloadMax: 0.85
+  calmMax: 0.85
+  breathMax: 0.6
   breathMin: 0.25
   noiseParticles: {fileID: 1359956381}
   particlesAtOverload: 80
@@ -6805,7 +6804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   calmnessController: {fileID: 1506470930}
-  calmnessGainPerResolve: 0.34
+  calmnessGainPerResolve: 0.333
 --- !u!1 &1717441771
 GameObject:
   m_ObjectHideFlags: 0

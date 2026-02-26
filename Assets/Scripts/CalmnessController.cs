@@ -8,8 +8,10 @@ public class CalmnessController : MonoBehaviour
 {
     [Header("Calmness (0 = overload, 1 = calm)")]
     [Range(0f, 1f)] public float calmness = 0f;
-    public float riseSpeed = 0.40f;   // how fast calmness rises while held
-    public float fallSpeed = 0.12f;   // how fast calmness falls when released
+
+    [Header("Optional manual rise (ONLY if you still want a hold mechanic)")]
+    public bool allowHoldToIncrease = false;
+    public float riseSpeed = 0.40f;
 
     [Header("Editor Test (Space key)")]
     public bool allowKeyboardTestInEditor = true;
@@ -45,7 +47,7 @@ public class CalmnessController : MonoBehaviour
             return kb != null && kb.spaceKey.isPressed;
         }
 
-        // XR trigger: assign holdAction later
+        // XR trigger
         if (holdAction != null && holdAction.action != null)
             return holdAction.action.ReadValue<float>() > 0.2f;
 #endif
@@ -68,11 +70,16 @@ public class CalmnessController : MonoBehaviour
 
     private void Update()
     {
-        bool held = IsHeld();
+        // Calmness NO LONGER FALLS automatically.
+        // It only changes if:
+        // 1) you call AddCalmness() from ResolveZoneTrigger via CalmnessEvents
+        // 2) (optional) you enable hold-to-increase below
 
-        // Update calmness
-        calmness += (held ? 1f : -1f) * (held ? riseSpeed : fallSpeed) * Time.deltaTime;
-        calmness = Mathf.Clamp01(calmness);
+        if (allowHoldToIncrease && IsHeld())
+        {
+            calmness += riseSpeed * Time.deltaTime;
+            calmness = Mathf.Clamp01(calmness);
+        }
 
         // Audio crossfade
         if (overloadLoop) overloadLoop.volume = Mathf.Lerp(overloadMax, 0f, calmness);
@@ -87,6 +94,12 @@ public class CalmnessController : MonoBehaviour
             var emission = noiseParticles.emission;
             emission.rateOverTime = Mathf.Lerp(particlesAtOverload, particlesAtCalm, calmness);
         }
+    }
+
+    // Call this from CalmnessEvents / ResolveZoneTrigger
+    public void AddCalmness(float amount)
+    {
+        calmness = Mathf.Clamp01(calmness + amount);
     }
 }
 
