@@ -46,11 +46,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CubeA:
-        m_Texture: {fileID: 8900000, guid: 08ea713d0e79d8e4aa41c53a0bad3fa5, type: 3}
+        m_Texture: {fileID: 8900000, guid: 84c66f8bf22c849c7a31900af5b26f3f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CubeB:
-        m_Texture: {fileID: 8900000, guid: fe92f018ab9184b43b46c80b2a02e522, type: 3}
+        m_Texture: {fileID: 8900000, guid: ea96f081841864d28a0feb209e47a15f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -106,7 +106,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0.999999
+    - _Blend: 0.99999934
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -118,7 +118,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Exposure: 1
+    - _Exposure: 1.24
     - _GalaxyRotationSpeed: 0.25
     - _GlossMapScale: 0
     - _Glossiness: 0
