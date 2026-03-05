@@ -3,29 +3,45 @@ using UnityEngine;
 public class NotificationPinger : MonoBehaviour
 {
     [Header("UI Popup")]
-    public GameObject popupPrefab;              // your PFB_NotificationIcon
-    public Transform spawnPoint;                // optional child anchor
+    public GameObject popupPrefab;
+    public Transform spawnPoint;
     public Vector3 localOffset = new Vector3(0f, 0.25f, 0f);
 
-    [Header("Timing (feels like a phone going off)")]
+    [Header("Timing")]
     public float intervalMin = 0.6f;
     public float intervalMax = 1.0f;
 
-    [Header("Limit (prevents spam/perf issues)")]
+    [Header("Limit")]
     public int maxActivePopups = 3;
+
+    [Header("Spawn Parent (NotificationRoot)")]
+    public Transform popupRoot;
 
     [Header("Sound")]
     public AudioSource sfxSource;
     public AudioClip pingClip;
     [Range(0f, 1f)] public float pingVolume = 0.7f;
 
-    private float nextTime;
-    private bool active = true;
+    float nextTime;
+    bool active = true;
+    Transform myPopupContainer;
 
     void Awake()
     {
-        ScheduleNext();
         if (sfxSource == null) sfxSource = GetComponent<AudioSource>();
+
+        // Create a private container under NotificationRoot (scale-safe + easy to clear)
+        if (popupRoot != null)
+        {
+            var go = new GameObject($"{name}_Popups");
+            myPopupContainer = go.transform;
+            myPopupContainer.SetParent(popupRoot, false); // false = don’t keep world, keep clean scale
+            myPopupContainer.localPosition = Vector3.zero;
+            myPopupContainer.localRotation = Quaternion.identity;
+            myPopupContainer.localScale = Vector3.one;
+        }
+
+        ScheduleNext();
     }
 
     void Update()
@@ -35,8 +51,10 @@ public class NotificationPinger : MonoBehaviour
 
         if (Time.time >= nextTime)
         {
-            // Count popups currently parented to this object
-            int activeCount = GetComponentsInChildren<NotificationPopup>(true).Length;
+            int activeCount = (myPopupContainer != null)
+                ? myPopupContainer.GetComponentsInChildren<NotificationPopup>(true).Length
+                : FindObjectsByType<NotificationPopup>(FindObjectsSortMode.None).Length;
+
             if (activeCount < maxActivePopups)
             {
                 SpawnPopup();
@@ -54,17 +72,17 @@ public class NotificationPinger : MonoBehaviour
 
     void SpawnPopup()
     {
-        Transform parent = transform;
-        Vector3 pos = transform.position;
+        Vector3 pos = (spawnPoint != null)
+            ? spawnPoint.position
+            : transform.TransformPoint(localOffset);
 
-        if (spawnPoint != null)
-            pos = spawnPoint.position;
-        else
-            pos = transform.TransformPoint(localOffset);
+        GameObject go = (myPopupContainer != null)
+            ? Instantiate(popupPrefab, myPopupContainer)
+            : Instantiate(popupPrefab);
 
-        // Spawn in world, then parent to object so it follows slightly if moved
-        var go = Instantiate(popupPrefab, pos, Quaternion.identity);
-        go.transform.SetParent(parent, true);
+        go.transform.position = pos;
+        go.transform.rotation = Quaternion.identity;
+        go.SetActive(true);
     }
 
     void PlayPing()
@@ -73,8 +91,14 @@ public class NotificationPinger : MonoBehaviour
             sfxSource.PlayOneShot(pingClip, pingVolume);
     }
 
-    public void StopPings()
+    public void StopPings(bool clearExisting = true)
     {
         active = false;
+
+        if (clearExisting && myPopupContainer != null)
+        {
+            for (int i = myPopupContainer.childCount - 1; i >= 0; i--)
+                Destroy(myPopupContainer.GetChild(i).gameObject);
+        }
     }
 }
