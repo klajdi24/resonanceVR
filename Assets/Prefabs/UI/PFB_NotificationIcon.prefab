@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 1.23
   floatUp: 0.08
-  holdFraction: 0.23
+  holdFraction: 0.5
 --- !u!1 &4318396134042464044
 GameObject:
   m_ObjectHideFlags: 0
