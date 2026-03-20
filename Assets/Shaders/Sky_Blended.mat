@@ -106,7 +106,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0.99999934
+    - _Blend: 0.99882275
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -137,7 +137,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TwinkleSpeed: 0.57
-    - _TwinkleStrength: 0.072
+    - _TwinkleStrength: 0.0719997
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
