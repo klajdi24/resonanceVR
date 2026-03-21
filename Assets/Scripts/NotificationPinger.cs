@@ -4,7 +4,10 @@ public class NotificationPinger : MonoBehaviour
 {
     [Header("UI Popup")]
     public GameObject popupPrefab;
+
+    [Tooltip("Best: assign PingPoint (child of the device) so placement is perfect.")]
     public Transform spawnPoint;
+
     public Vector3 localOffset = new Vector3(0f, 0.25f, 0f);
 
     [Header("Timing")]
@@ -35,7 +38,7 @@ public class NotificationPinger : MonoBehaviour
         {
             var go = new GameObject($"{name}_Popups");
             myPopupContainer = go.transform;
-            myPopupContainer.SetParent(popupRoot, false); // false = don’t keep world, keep clean scale
+            myPopupContainer.SetParent(popupRoot, false);
             myPopupContainer.localPosition = Vector3.zero;
             myPopupContainer.localRotation = Quaternion.identity;
             myPopupContainer.localScale = Vector3.one;
@@ -72,10 +75,12 @@ public class NotificationPinger : MonoBehaviour
 
     void SpawnPopup()
     {
+        // Spawn position
         Vector3 pos = (spawnPoint != null)
             ? spawnPoint.position
             : transform.TransformPoint(localOffset);
 
+        // Spawn under container (keeps hierarchy clean + avoids device scale)
         GameObject go = (myPopupContainer != null)
             ? Instantiate(popupPrefab, myPopupContainer)
             : Instantiate(popupPrefab);
@@ -83,6 +88,14 @@ public class NotificationPinger : MonoBehaviour
         go.transform.position = pos;
         go.transform.rotation = Quaternion.identity;
         go.SetActive(true);
+
+        // NEW: make the popup follow the device while it exists
+        var popup = go.GetComponent<NotificationPopup>();
+        if (popup != null)
+        {
+            popup.followTarget = (spawnPoint != null) ? spawnPoint : transform;
+            popup.followOffset = Vector3.zero;
+        }
     }
 
     void PlayPing()
