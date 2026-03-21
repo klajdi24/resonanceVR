@@ -5,9 +5,10 @@ public class NotificationPinger : MonoBehaviour
     [Header("UI Popup")]
     public GameObject popupPrefab;
 
-    [Tooltip("Best: assign PingPoint (child of the device) so placement is perfect.")]
+    [Tooltip("Optional. If assigned, used as a starting reference position; popup will still correct itself using bounds.")]
     public Transform spawnPoint;
 
+    [Tooltip("Used only if spawnPoint is null. Local offset from this object.")]
     public Vector3 localOffset = new Vector3(0f, 0.25f, 0f);
 
     [Header("Timing")]
@@ -20,25 +21,38 @@ public class NotificationPinger : MonoBehaviour
     [Header("Spawn Parent (NotificationRoot)")]
     public Transform popupRoot;
 
+    [Header("Optional ground clamp (recommended)")]
+    public string floorLayerName = "Floor"; // create a Floor layer for your floor mesh
+
     [Header("Sound")]
     public AudioSource sfxSource;
     public AudioClip pingClip;
     [Range(0f, 1f)] public float pingVolume = 0.7f;
 
-    float nextTime;
-    bool active = true;
-    Transform myPopupContainer;
+    private float nextTime;
+    private bool active = true;
+    private Transform myPopupContainer;
 
-    void Awake()
+    private Renderer cachedRenderer;
+    private Collider cachedCollider;
+    private LayerMask floorMask;
+
+    private void Awake()
     {
         if (sfxSource == null) sfxSource = GetComponent<AudioSource>();
+
+        cachedRenderer = GetComponentInChildren<Renderer>();
+        cachedCollider = GetComponentInChildren<Collider>();
+
+        // optional floor mask
+        floorMask = LayerMask.GetMask(floorLayerName);
 
         // Create a private container under NotificationRoot (scale-safe + easy to clear)
         if (popupRoot != null)
         {
             var go = new GameObject($"{name}_Popups");
             myPopupContainer = go.transform;
-            myPopupContainer.SetParent(popupRoot, false);
+            myPopupContainer.SetParent(popupRoot, false); // clean scale
             myPopupContainer.localPosition = Vector3.zero;
             myPopupContainer.localRotation = Quaternion.identity;
             myPopupContainer.localScale = Vector3.one;
@@ -47,7 +61,7 @@ public class NotificationPinger : MonoBehaviour
         ScheduleNext();
     }
 
-    void Update()
+    private void Update()
     {
         if (!active) return;
         if (popupPrefab == null) return;
@@ -68,19 +82,18 @@ public class NotificationPinger : MonoBehaviour
         }
     }
 
-    void ScheduleNext()
+    private void ScheduleNext()
     {
         nextTime = Time.time + Random.Range(intervalMin, intervalMax);
     }
 
-    void SpawnPopup()
+    private void SpawnPopup()
     {
-        // Spawn position
+        // Initial position (popup will correct itself via NotificationPopup using bounds)
         Vector3 pos = (spawnPoint != null)
             ? spawnPoint.position
             : transform.TransformPoint(localOffset);
 
-        // Spawn under container (keeps hierarchy clean + avoids device scale)
         GameObject go = (myPopupContainer != null)
             ? Instantiate(popupPrefab, myPopupContainer)
             : Instantiate(popupPrefab);
@@ -89,16 +102,21 @@ public class NotificationPinger : MonoBehaviour
         go.transform.rotation = Quaternion.identity;
         go.SetActive(true);
 
-        // NEW: make the popup follow the device while it exists
+        // Tell popup what to follow and what bounds to use (so it stays above the device even upside down)
         var popup = go.GetComponent<NotificationPopup>();
         if (popup != null)
         {
-            popup.followTarget = (spawnPoint != null) ? spawnPoint : transform;
-            popup.followOffset = Vector3.zero;
+            popup.followTarget = transform;
+            popup.targetRenderer = cachedRenderer;
+            popup.targetCollider = cachedCollider;
+
+            // Optional ground clamp (only works if your floor is on the "Floor" layer)
+            if (floorMask.value != 0)
+                popup.groundMask = floorMask;
         }
     }
 
-    void PlayPing()
+    private void PlayPing()
     {
         if (sfxSource != null && pingClip != null)
             sfxSource.PlayOneShot(pingClip, pingVolume);
