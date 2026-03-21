@@ -12455,7 +12455,7 @@ MonoBehaviour:
   overloadLoop: {fileID: 592383442}
   calmLoop: {fileID: 1960732221}
   breathLoop: {fileID: 1147897655}
-  overloadMax: 0.85
+  overloadMax: 0.535
   calmMax: 0.85
   breathMax: 0.6
   breathMin: 0.25
@@ -16009,7 +16009,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 14d32576665584c25a203e252edf457a, type: 3}
   m_Resource: {fileID: 8300000, guid: 14d32576665584c25a203e252edf457a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -16106,7 +16106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0572fa0254d465ca864e5e52f06118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupPrefab: {fileID: 292504082120203817, guid: 36a5c2479be624fce8609a2089d99adc, type: 3}
+  popupPrefab: {fileID: 292504082120203817, guid: 4bdc191f48de84d5eb7a29ee77654136, type: 3}
   spawnPoint: {fileID: 8272670270879490482}
   localOffset: {x: 0, y: 0.25, z: 0}
   intervalMin: 3.06
