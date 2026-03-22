@@ -1013,7 +1013,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -1080,7 +1080,7 @@ Transform:
   m_GameObject: {fileID: 720481773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16399,6 +16399,7 @@ MonoBehaviour:
   intervalMax: 5.34
   maxActivePopups: 9
   popupRoot: {fileID: 1987523274}
+  floorLayerName: Floor
   sfxSource: {fileID: 0}
   pingClip: {fileID: 8300000, guid: 14d32576665584c25a203e252edf457a, type: 3}
   pingVolume: 0.7
@@ -16837,6 +16838,7 @@ MonoBehaviour:
   intervalMax: 2.05
   maxActivePopups: 8
   popupRoot: {fileID: 1271597157}
+  floorLayerName: Floor
   sfxSource: {fileID: 0}
   pingClip: {fileID: 8300000, guid: f8b1715db22114208a46c4463c0ed366, type: 3}
   pingVolume: 1
