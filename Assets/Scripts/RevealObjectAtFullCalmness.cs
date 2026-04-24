@@ -2,26 +2,91 @@ using UnityEngine;
 
 public class RevealObjectAtFullCalmness : MonoBehaviour
 {
+    [Header("Calmness")]
     public CalmnessController calmnessController;
-    public GameObject targetToEnable;
-    [Range(0f, 1f)] public float revealAt = 1.0f;
 
-    bool done;
+    [Range(0f, 1f)]
+    public float revealAt = 0.99f;
+
+    [Header("Object Reveal")]
+    public GameObject targetToEnable;
+
+    [Tooltip("Turn this on if the object should be hidden until full calmness.")]
+    public bool hideTargetOnStart = false;
+
+    [Header("Animator Animation")]
+    public Animator animatorToPlay;
+
+    [Tooltip("Use this if your Animator has a Trigger parameter.")]
+    public string triggerName = "";
+
+    [Tooltip("Use this if you want to play an animation state directly, e.g. Open, Activate, Armature|Action.")]
+    public string animationStateName = "";
+
+    [Tooltip("Optional: keep Animator disabled until full calmness so it does not play too early.")]
+    public bool disableAnimatorUntilFullCalmness = false;
+
+    [Header("Legacy Animation Component")]
+    public Animation legacyAnimationToPlay;
+
+    [Tooltip("Leave empty to play the default legacy animation.")]
+    public string legacyAnimationName = "";
+
+    private bool done;
 
     void Awake()
     {
         if (calmnessController == null)
             calmnessController = FindFirstObjectByType<CalmnessController>();
+
+        if (hideTargetOnStart && targetToEnable != null)
+            targetToEnable.SetActive(false);
+
+        if (disableAnimatorUntilFullCalmness && animatorToPlay != null)
+            animatorToPlay.enabled = false;
     }
 
     void Update()
     {
-        if (done || calmnessController == null || targetToEnable == null) return;
+        if (done) return;
+        if (calmnessController == null) return;
 
-        if (calmnessController.calmness >= revealAt - 0.0001f)
+        if (calmnessController.calmness >= revealAt)
         {
-            targetToEnable.SetActive(true);
             done = true;
+            RevealAndPlay();
+        }
+    }
+
+    private void RevealAndPlay()
+    {
+        if (targetToEnable != null)
+            targetToEnable.SetActive(true);
+
+        if (animatorToPlay != null)
+        {
+            animatorToPlay.enabled = true;
+
+            if (!string.IsNullOrEmpty(triggerName))
+            {
+                animatorToPlay.SetTrigger(triggerName);
+            }
+            else if (!string.IsNullOrEmpty(animationStateName))
+            {
+                animatorToPlay.Play(animationStateName, 0, 0f);
+            }
+            else
+            {
+                Debug.LogWarning("Animator is assigned, but no triggerName or animationStateName was set.");
+            }
+        }
+
+        if (legacyAnimationToPlay != null)
+        {
+            if (!string.IsNullOrEmpty(legacyAnimationName))
+                legacyAnimationToPlay.Play(legacyAnimationName);
+            else
+                legacyAnimationToPlay.Play();
         }
     }
 }
