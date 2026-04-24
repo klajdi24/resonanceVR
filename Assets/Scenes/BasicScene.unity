@@ -515,6 +515,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &327884641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327884643}
+  - component: {fileID: 327884642}
+  m_Layer: 0
+  m_Name: LightningStormManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &327884642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327884641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf2afe6a5add4d6cb3fffeaaf33aa09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  calmnessController: {fileID: 1506470930}
+  stopAtCalmness: 0.99
+  lightningPrefabs:
+  - {fileID: 285656054538791525, guid: dc0dcd1aa86e1e74c94eafd8a4beb5c7, type: 3}
+  lightningLifetime: 1.5
+  areaSize: {x: 8, y: 4, z: 8}
+  minHeight: 1.5
+  maxHeight: 5
+  intervalMinAtOverload: 0.6
+  intervalMaxAtOverload: 1.5
+  intervalMinNearCalm: 3
+  intervalMaxNearCalm: 6
+  lightningSounds: []
+  volumeAtOverload: 0.8
+  volumeNearCalm: 0.15
+  soundMaxDistance: 18
+  clearExistingLightningAtFullCalmness: 1
+  stopCompletelyAtFullCalmness: 1
+--- !u!4 &327884643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327884641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.6, y: -0.4, z: 3.24}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &429226153
 GameObject:
   m_ObjectHideFlags: 0
@@ -22141,3 +22203,4 @@ SceneRoots:
   - {fileID: 543450652677271903}
   - {fileID: 543450651896480087}
   - {fileID: 5122295473401826540}
+  - {fileID: 327884643}
