@@ -32,6 +32,11 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
     [Tooltip("Leave empty to play the default legacy animation.")]
     public string legacyAnimationName = "";
 
+    [Header("Sound When Animation Plays")]
+    public AudioSource animationAudioSource;
+    public AudioClip animationSound;
+    [Range(0f, 1f)] public float animationSoundVolume = 1f;
+
     private bool done;
 
     void Awake()
@@ -44,6 +49,15 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
 
         if (disableAnimatorUntilFullCalmness && animatorToPlay != null)
             animatorToPlay.enabled = false;
+
+        if (animationAudioSource == null)
+            animationAudioSource = GetComponent<AudioSource>();
+
+        if (animationAudioSource != null)
+        {
+            animationAudioSource.playOnAwake = false;
+            animationAudioSource.spatialBlend = 1f; // 3D sound from the object
+        }
     }
 
     void Update()
@@ -63,6 +77,11 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
         if (targetToEnable != null)
             targetToEnable.SetActive(true);
 
+        PlayAnimationSound();
+
+        if (animatorToPlay == null && targetToEnable != null)
+            animatorToPlay = targetToEnable.GetComponentInChildren<Animator>(true);
+
         if (animatorToPlay != null)
         {
             animatorToPlay.enabled = true;
@@ -77,7 +96,7 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Animator is assigned, but no triggerName or animationStateName was set.");
+                Debug.LogWarning("Animator found, but no triggerName or animationStateName was set.");
             }
         }
 
@@ -88,5 +107,13 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
             else
                 legacyAnimationToPlay.Play();
         }
+    }
+
+    private void PlayAnimationSound()
+    {
+        if (animationAudioSource == null || animationSound == null)
+            return;
+
+        animationAudioSource.PlayOneShot(animationSound, animationSoundVolume);
     }
 }
