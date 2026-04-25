@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class ResolveZoneTrigger : MonoBehaviour
 {
@@ -11,45 +12,120 @@ public class ResolveZoneTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("NoiseObject")) return;
+        TryResolve(other);
+    }
 
-        if (other.GetComponent<ResolvedMarker>() != null) return;
+    private void TryResolve(Collider other)
+    {
+        // Finds NoiseObject even if the trigger detects a child collider
+        Transform noiseObject = FindNoiseObject(other.transform);
+        if (noiseObject == null) return;
 
-        other.gameObject.AddComponent<ResolvedMarker>();
+        // Use the main/root object if possible
+        Transform root = GetResolveRoot(noiseObject);
+
+        if (root.GetComponent<ResolvedMarker>() != null) return;
+
+        root.gameObject.AddComponent<ResolvedMarker>();
 
         if (calmnessEvents != null)
             calmnessEvents.AddCalmness();
 
-        // ✅ NEW: stop notification pings (works even if collider is a child)
-        var pinger = other.GetComponentInParent<NotificationPinger>();
-        if (pinger != null)
-            pinger.StopPings();
+        // Stop notification popups/sounds
+        StopNotificationPingers(root);
 
-        other.transform.localScale *= shrinkMultiplier;
+        // Stop proximity looping sounds, like your final ball zapping loop
+        StopProximitySounds(root);
 
-        other.transform.position = transform.position + Vector3.up * 0.15f;
+        // Shrink and move into the resolve zone
+        root.localScale *= shrinkMultiplier;
+        root.position = transform.position + Vector3.up * 0.15f;
 
         if (disableGrabAfterResolve)
         {
-            var grab =
-                other.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+            XRGrabInteractable grab = root.GetComponent<XRGrabInteractable>();
 
-            // If XRGrabInteractable is on the parent, disable that too:
             if (grab == null)
-                grab = other.GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+                grab = root.GetComponentInChildren<XRGrabInteractable>();
 
-            if (grab) grab.enabled = false;
+            if (grab != null)
+                grab.enabled = false;
         }
 
         if (disablePhysicsAfterResolve)
         {
-            var rb = other.GetComponent<Rigidbody>();
+            Rigidbody rb = root.GetComponent<Rigidbody>();
 
-            // If Rigidbody is on the parent, disable that too:
             if (rb == null)
-                rb = other.GetComponentInParent<Rigidbody>();
+                rb = root.GetComponentInChildren<Rigidbody>();
 
-            if (rb) rb.isKinematic = true;
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
+        }
+    }
+
+    private Transform FindNoiseObject(Transform start)
+    {
+        Transform current = start;
+
+        while (current != null)
+        {
+            if (current.CompareTag("NoiseObject"))
+                return current;
+
+            current = current.parent;
+        }
+
+        return null;
+    }
+
+    private Transform GetResolveRoot(Transform noiseObject)
+    {
+        XRGrabInteractable grab = noiseObject.GetComponentInParent<XRGrabInteractable>();
+        if (grab != null)
+            return grab.transform;
+
+        Rigidbody rb = noiseObject.GetComponentInParent<Rigidbody>();
+        if (rb != null)
+            return rb.transform;
+
+        NotificationPinger pinger = noiseObject.GetComponentInParent<NotificationPinger>();
+        if (pinger != null)
+            return pinger.transform;
+
+        ProximitySoundAnchor sound = noiseObject.GetComponentInParent<ProximitySoundAnchor>();
+        if (sound != null)
+            return sound.transform;
+
+        return noiseObject;
+    }
+
+    private void StopNotificationPingers(Transform root)
+    {
+        NotificationPinger[] pingers = root.GetComponentsInChildren<NotificationPinger>(true);
+
+        foreach (NotificationPinger pinger in pingers)
+        {
+            if (pinger == null) continue;
+
+            pinger.StopPings(true);
+            pinger.enabled = false;
+        }
+    }
+
+    private void StopProximitySounds(Transform root)
+    {
+        ProximitySoundAnchor[] sounds = root.GetComponentsInChildren<ProximitySoundAnchor>(true);
+
+        foreach (ProximitySoundAnchor sound in sounds)
+        {
+            if (sound == null) continue;
+
+            sound.enabled = false;
         }
     }
 
