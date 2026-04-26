@@ -17,11 +17,9 @@ public class ResolveZoneTrigger : MonoBehaviour
 
     private void TryResolve(Collider other)
     {
-        // Finds NoiseObject even if the trigger detects a child collider
         Transform noiseObject = FindNoiseObject(other.transform);
         if (noiseObject == null) return;
 
-        // Use the main/root object if possible
         Transform root = GetResolveRoot(noiseObject);
 
         if (root.GetComponent<ResolvedMarker>() != null) return;
@@ -31,13 +29,12 @@ public class ResolveZoneTrigger : MonoBehaviour
         if (calmnessEvents != null)
             calmnessEvents.AddCalmness();
 
-        // Stop notification popups/sounds
         StopNotificationPingers(root);
-
-        // Stop proximity looping sounds, like your final ball zapping loop
         StopProximitySounds(root);
 
-        // Shrink and move into the resolve zone
+        // NEW: play object-specific resolve effects (harp sound, stars, etc.)
+        PlayResolveEffects(root);
+
         root.localScale *= shrinkMultiplier;
         root.position = transform.position + Vector3.up * 0.15f;
 
@@ -126,6 +123,18 @@ public class ResolveZoneTrigger : MonoBehaviour
             if (sound == null) continue;
 
             sound.enabled = false;
+        }
+    }
+
+    private void PlayResolveEffects(Transform root)
+    {
+        ResolveEffectOnPlaced[] effects =
+            root.GetComponentsInChildren<ResolveEffectOnPlaced>(true);
+
+        foreach (ResolveEffectOnPlaced effect in effects)
+        {
+            if (effect != null)
+                effect.PlayResolveEffect();
         }
     }
 
