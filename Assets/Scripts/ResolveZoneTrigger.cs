@@ -10,6 +10,10 @@ public class ResolveZoneTrigger : MonoBehaviour
     public bool disableGrabAfterResolve = true;
     public bool disablePhysicsAfterResolve = true;
 
+    [Header("Open Path After First Resolve")]
+    public GameObject[] objectsToHideAfterFirstResolve;
+    private bool hasOpenedPath = false;
+
     private void OnTriggerEnter(Collider other)
     {
         TryResolve(other);
@@ -29,12 +33,19 @@ public class ResolveZoneTrigger : MonoBehaviour
         if (calmnessEvents != null)
             calmnessEvents.AddCalmness();
 
+        
+        OpenPathAfterFirstResolve();
+
+        
         StopNotificationPingers(root);
+
+        
         StopProximitySounds(root);
 
-        // NEW: play object-specific resolve effects (harp sound, stars, etc.)
+        
         PlayResolveEffects(root);
 
+        
         root.localScale *= shrinkMultiplier;
         root.position = transform.position + Vector3.up * 0.15f;
 
@@ -62,6 +73,19 @@ public class ResolveZoneTrigger : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
                 rb.isKinematic = true;
             }
+        }
+    }
+
+    private void OpenPathAfterFirstResolve()
+    {
+        if (hasOpenedPath) return;
+
+        hasOpenedPath = true;
+
+        foreach (GameObject obj in objectsToHideAfterFirstResolve)
+        {
+            if (obj != null)
+                obj.SetActive(false);
         }
     }
 
