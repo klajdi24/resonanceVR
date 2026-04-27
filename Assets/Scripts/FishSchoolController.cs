@@ -47,7 +47,7 @@ public class FishSchoolController : MonoBehaviour
             float s = Random.Range(0.8f, 1.3f);
             fish[i].localScale *= s;
 
-            // random tint (optional)
+            
             if (renderers[i] != null && renderers[i].material.HasProperty("_Color"))
             {
                 Color c = Color.Lerp(new Color(0.2f, 0.6f, 1f), new Color(0.9f, 0.4f, 1f), Random.value);
@@ -60,7 +60,7 @@ public class FishSchoolController : MonoBehaviour
     {
         if (fish == null) return;
 
-        // Fade fish in/out by toggling renderer
+        
         bool show = visibility > 0.02f;
         for (int i = 0; i < fishCount; i++)
         {
@@ -81,10 +81,10 @@ public class FishSchoolController : MonoBehaviour
             Vector3 target = centers[i] + new Vector3(Mathf.Cos(rad) * r, 0f, Mathf.Sin(rad) * r);
             target.y = waterY + Mathf.Sin(t * (1.2f + i * 0.07f)) * bobAmount;
 
-            // Move
+            
             fish[i].position = Vector3.Lerp(fish[i].position, target, Time.deltaTime * 1.8f);
 
-            // Look direction
+            
             Vector3 dir = (target - fish[i].position);
             dir.y = 0f;
             if (dir.sqrMagnitude > 0.0001f)

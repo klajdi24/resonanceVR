@@ -40,14 +40,14 @@ public class CalmnessController : MonoBehaviour
     private bool IsHeld()
     {
 #if ENABLE_INPUT_SYSTEM
-        // Editor test: hold SPACE
+        
         if (allowKeyboardTestInEditor && Application.isEditor)
         {
             var kb = Keyboard.current;
             return kb != null && kb.spaceKey.isPressed;
         }
 
-        // XR trigger
+        
         if (holdAction != null && holdAction.action != null)
             return holdAction.action.ReadValue<float>() > 0.2f;
 #endif
@@ -70,25 +70,21 @@ public class CalmnessController : MonoBehaviour
 
     private void Update()
     {
-        // Calmness NO LONGER FALLS automatically.
-        // It only changes if:
-        // 1) you call AddCalmness() from ResolveZoneTrigger via CalmnessEvents
-        // 2) (optional) you enable hold-to-increase below
-
-        if (allowHoldToIncrease && IsHeld())
+        
+         if (allowHoldToIncrease && IsHeld())
         {
             calmness += riseSpeed * Time.deltaTime;
             calmness = Mathf.Clamp01(calmness);
         }
 
-        // Audio crossfade
+        
         if (overloadLoop) overloadLoop.volume = Mathf.Lerp(overloadMax, 0f, calmness);
         if (calmLoop)     calmLoop.volume     = Mathf.Lerp(0f, calmMax, calmness);
 
-        // Breathing motif becomes softer as calmness increases
+        
         if (breathLoop)   breathLoop.volume   = Mathf.Lerp(breathMax, breathMin, calmness);
 
-        // Visual clutter reduces as calmness increases
+        
         if (noiseParticles)
         {
             var emission = noiseParticles.emission;
@@ -96,7 +92,7 @@ public class CalmnessController : MonoBehaviour
         }
     }
 
-    // Call this from CalmnessEvents / ResolveZoneTrigger
+    
     public void AddCalmness(float amount)
     {
         calmness = Mathf.Clamp01(calmness + amount);

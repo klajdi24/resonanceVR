@@ -22,7 +22,7 @@ public class NotificationPinger : MonoBehaviour
     public Transform popupRoot;
 
     [Header("Optional ground clamp (recommended)")]
-    public string floorLayerName = "Floor"; // create a Floor layer for your floor mesh
+    public string floorLayerName = "Floor"; 
 
     [Header("Sound")]
     public AudioSource sfxSource;
@@ -44,15 +44,15 @@ public class NotificationPinger : MonoBehaviour
         cachedRenderer = GetComponentInChildren<Renderer>();
         cachedCollider = GetComponentInChildren<Collider>();
 
-        // optional floor mask
+        
         floorMask = LayerMask.GetMask(floorLayerName);
 
-        // Create a private container under NotificationRoot (scale-safe + easy to clear)
+        
         if (popupRoot != null)
         {
             var go = new GameObject($"{name}_Popups");
             myPopupContainer = go.transform;
-            myPopupContainer.SetParent(popupRoot, false); // clean scale
+            myPopupContainer.SetParent(popupRoot, false); 
             myPopupContainer.localPosition = Vector3.zero;
             myPopupContainer.localRotation = Quaternion.identity;
             myPopupContainer.localScale = Vector3.one;
@@ -89,7 +89,7 @@ public class NotificationPinger : MonoBehaviour
 
     private void SpawnPopup()
     {
-        // Initial position (popup will correct itself via NotificationPopup using bounds)
+        
         Vector3 pos = (spawnPoint != null)
             ? spawnPoint.position
             : transform.TransformPoint(localOffset);
@@ -102,7 +102,7 @@ public class NotificationPinger : MonoBehaviour
         go.transform.rotation = Quaternion.identity;
         go.SetActive(true);
 
-        // Tell popup what to follow and what bounds to use (so it stays above the device even upside down)
+        
         var popup = go.GetComponent<NotificationPopup>();
         if (popup != null)
         {
@@ -110,7 +110,7 @@ public class NotificationPinger : MonoBehaviour
             popup.targetRenderer = cachedRenderer;
             popup.targetCollider = cachedCollider;
 
-            // Optional ground clamp (only works if your floor is on the "Floor" layer)
+            
             if (floorMask.value != 0)
                 popup.groundMask = floorMask;
         }

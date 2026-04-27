@@ -7,8 +7,8 @@ public class CalmnessMusicPlaylist : MonoBehaviour
     public CalmnessController calmnessController;
 
     [Header("Start Condition")]
-    [Range(0f, 1f)] public float startAtCalmness = 1.0f; // “full calmness”
-    public bool startOnlyOnce = true; // once started, it keeps going forever
+    [Range(0f, 1f)] public float startAtCalmness = 1.0f; 
+    public bool startOnlyOnce = true; 
 
     [Header("Tracks (alternate)")]
     public AudioClip trackA;
@@ -33,7 +33,7 @@ public class CalmnessMusicPlaylist : MonoBehaviour
         {
             musicSource.playOnAwake = false;
             musicSource.loop = false;
-            musicSource.spatialBlend = 0f; // 2D
+            musicSource.spatialBlend = 0f; 
             musicSource.volume = volume;
         }
     }
@@ -73,11 +73,11 @@ public class CalmnessMusicPlaylist : MonoBehaviour
         musicSource.volume = volume;
         musicSource.Play();
 
-        // Wait until finished (handles pauses/lag better than clip.length alone)
+        
         while (musicSource.isPlaying)
             yield return null;
 
-        // Small gap feels nicer (optional)
+        
         yield return new WaitForSeconds(0.1f);
     }
 }

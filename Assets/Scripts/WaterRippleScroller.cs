@@ -23,7 +23,7 @@ public class WaterRippleScroller : MonoBehaviour
 
         if (targetRenderer == null) return;
 
-        matInstance = targetRenderer.material; // instance
+        matInstance = targetRenderer.material; 
         isURP = matInstance.HasProperty(baseMapPropertyURP);
     }
 
@@ -39,7 +39,7 @@ public class WaterRippleScroller : MonoBehaviour
         Vector2 a = scrollSpeedA * Time.time;
         Vector2 b = scrollSpeedB * Time.time;
 
-        // Combine two scrolls for a richer motion feel
+        
         Vector2 offset = new Vector2(a.x + b.x, a.y + b.y);
         matInstance.SetTextureOffset(prop, offset);
     }

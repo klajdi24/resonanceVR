@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class NotificationPopper : MonoBehaviour
 {
     [Header("Prefab")]
-    public GameObject notificationPrefab;   // PFB_NotificationIcon
+    public GameObject notificationPrefab;   
 
     [Header("Spawn")]
     public Vector3 localOffset = new Vector3(0f, 0.35f, 0f);
@@ -34,7 +34,7 @@ public class NotificationPopper : MonoBehaviour
 
         if (Time.time >= nextTime)
         {
-            // Don’t exceed max active popups attached to this object
+            
             int activeCount = GetComponentsInChildren<NotificationPopup>(true).Length;
             if (activeCount < maxActivePopups)
                 SpawnOnce();
@@ -54,7 +54,7 @@ public class NotificationPopper : MonoBehaviour
         go.transform.localPosition = localOffset;
         go.transform.localRotation = Quaternion.identity;
 
-        // Random icon if you add them later
+        
         if (icons != null && icons.Length > 0)
         {
             var img = go.GetComponentInChildren<Image>();

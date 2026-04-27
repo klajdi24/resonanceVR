@@ -56,7 +56,7 @@ public class RevealObjectAtFullCalmness : MonoBehaviour
         if (animationAudioSource != null)
         {
             animationAudioSource.playOnAwake = false;
-            animationAudioSource.spatialBlend = 1f; // 3D sound from the object
+            animationAudioSource.spatialBlend = 1f; 
         }
     }
 

@@ -60,7 +60,7 @@ public class SkyboxBlendController : MonoBehaviour
     {
         blendedSkyboxMaterial.SetFloat(BlendID, blend01);
 
-        // only animate galaxy when it becomes visible
+        
         float motion = Mathf.SmoothStep(0f, 1f, blend01);
         blendedSkyboxMaterial.SetFloat(GalaxyRotSpeedID, galaxyRotationSpeed * motion);
         blendedSkyboxMaterial.SetFloat(TwinkleStrengthID, twinkleStrength * motion);

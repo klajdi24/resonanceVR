@@ -56,11 +56,11 @@ public class EnvironmentTransitionController : MonoBehaviour
 
         if (concreteFloorRenderer != null)
         {
-            concreteMat = concreteFloorRenderer.material; // instance
+            concreteMat = concreteFloorRenderer.material; 
             concreteIsURP = concreteMat != null && concreteMat.HasProperty(emissionPropertyURP);
         }
 
-        // Start state
+        
         if (waterFloorObject != null)
             waterFloorObject.SetActive(false);
 
@@ -79,7 +79,7 @@ public class EnvironmentTransitionController : MonoBehaviour
 
         float c = Mathf.Clamp01(calmnessController.calmness);
 
-        // Water reveal blend
+        
         float targetWater = Mathf.InverseLerp(waterStartsAt, waterFullAt, c);
         targetWater = Mathf.Clamp01(targetWater);
 
@@ -96,7 +96,7 @@ public class EnvironmentTransitionController : MonoBehaviour
     {
         if (concreteMat == null) return;
 
-        // cracks start glowing as soon as calmness rises
+        
         float glow01 = Mathf.SmoothStep(0f, 1f, calmness);
 
         float intensity = glow01 * crackGlowIntensityMax;
@@ -119,16 +119,16 @@ public class EnvironmentTransitionController : MonoBehaviour
         if (water01 > 0.02f && !waterFloorObject.activeSelf)
             waterFloorObject.SetActive(true);
 
-        // raise water slightly as it reveals (feels like it’s coming through cracks)
+        
         Vector3 pos = waterBasePos;
         pos.y = waterBasePos.y + (waterRaiseAmount * water01);
         waterFloorObject.transform.position = pos;
 
-        // If you want concrete to disappear later, you can fade it by scaling slightly:
-        // (kept simple and safe for URP/Built-in)
+        
+        
         if (concreteFloorRenderer != null)
         {
-            // subtle lift illusion: concrete feels “less dominant”
+            
             concreteFloorRenderer.transform.localPosition = new Vector3(0f, 0f + (0.015f * (1f - water01)), 0f);
         }
     }
@@ -161,7 +161,7 @@ public class EnvironmentTransitionController : MonoBehaviour
     {
         if (fishSchool == null) return;
 
-        // fish appear a bit after water starts
+        
         float fish01 = Mathf.InverseLerp(waterStartsAt + 0.1f, 1.0f, calmness);
         fish01 = Mathf.Clamp01(fish01);
 
