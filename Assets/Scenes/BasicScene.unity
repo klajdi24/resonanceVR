@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   minHearDistance: 1.92
-  maxHearDistance: 7.09
+  maxHearDistance: 9.04
   maxVolume: 1
   falloffPower: 1.8
   volumeLerpSpeed: 6
@@ -1900,9 +1900,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 1.43
   MinDistance: 6.9776187
-  MaxDistance: 500
+  MaxDistance: 500.21
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -1937,7 +1937,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -17798,7 +17798,7 @@ MonoBehaviour:
   calmnessController: {fileID: 1506470930}
   triggerAt: 1
   objectsToHide:
-  - {fileID: 0}
+  - {fileID: 5502796438096402006}
   - {fileID: 919132147637214189}
   - {fileID: 8438536493364783708}
   - {fileID: 4424849053345081989}
@@ -24089,7 +24089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &919132148177197878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53670,8 +53670,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   minHearDistance: 1.2
-  maxHearDistance: 7
-  maxVolume: 0.85
+  maxHearDistance: 8.13
+  maxVolume: 1
   falloffPower: 1.8
   volumeLerpSpeed: 6
 --- !u!82 &5502796438096402011
@@ -62572,7 +62572,7 @@ Transform:
   m_GameObject: {fileID: 6186283028039728899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5882, y: 0.13089, z: -5.4959}
+  m_LocalPosition: {x: 66.3, y: 0.13089, z: -46.39}
   m_LocalScale: {x: 0.60225, y: 0.60225, z: 0.60225}
   m_ConstrainProportionsScale: 0
   m_Children:
